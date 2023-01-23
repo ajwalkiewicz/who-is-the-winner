@@ -1,3 +1,14 @@
 :root {
-  --primary: #1e88e5;
+    --primary: #d81b60;
+  }
+
+.remove-btn {
+    width: 15px;
+    height: 20px;
+    /* margin-top: 10px; */
+    margin: auto;
+    background: #d81b60;
+    border-color: #d81b60;
+    text-align: center;
+
 }

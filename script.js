@@ -95,8 +95,10 @@ class UI {
   addPlayer() {
     const newPlayer = new Person(...this.addField.value.split(" "));
     console.log(newPlayer);
-    this.game.addPlayer(newPlayer);
-    this.renderTable();
+    if (newPlayer.first_name && newPlayer.last_name) {
+      this.game.addPlayer(newPlayer);
+      this.renderTable();
+    }
   }
 
   resetGame() {
@@ -120,16 +122,23 @@ class UI {
       const tr = document.createElement("tr");
       const th = document.createElement("th");
       const tdName = document.createElement("td");
-      // const tdRemove = document.createElement("td");
+      const tdRemove = document.createElement("td");
+      const removeButton = document.createElement("button");
 
       th.setAttribute("scope", "row");
       th.innerText = index + 1;
+
       tdName.innerText = `${person.first_name} ${person.last_name}`;
-      // tdRemove.innerText = "❌";
+
+      // removeButton.innerText = "❌";
+      removeButton.classList.add("remove-btn");
+      removeButton.addEventListener("click", () => this.removePlayer(index));
+
+      tdRemove.appendChild(removeButton);
 
       tr.appendChild(th);
       tr.appendChild(tdName);
-      // tr.appendChild(tdRemove);
+      tr.appendChild(tdRemove);
 
       this.table.appendChild(tr);
     });
