@@ -1,20 +1,8 @@
-class Person {
-  constructor(first_name, last_name) {
-    this.first_name = first_name;
-    this.last_name = last_name;
-  }
-}
+import {
+  players,
+  Person
+} from "./players.js";
 
-const players = [
-  new Person("Adam", "Walkiewicz"),
-  new Person("Karol", "Grydziuszko"),
-  new Person("Konrad", "Zalecki"),
-  new Person("Maria", "Dyoniziak"),
-  new Person("Marek", "Hojnacki"),
-  new Person("Mateusz", "Rechnio"),
-  new Person("Michał", "Wiatrowski"),
-  new Person("Paweł", "Marchewka"),
-];
 
 class Game {
   constructor() {
