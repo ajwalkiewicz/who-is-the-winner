@@ -118,7 +118,6 @@ class UI {
 
       tdName.innerText = `${person.first_name} ${person.last_name}`;
 
-      // removeButton.innerText = "❌";
       removeButton.classList.add("remove-btn");
       removeButton.addEventListener("click", () => this.removePlayer(index));
 
