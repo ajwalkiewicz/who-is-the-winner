@@ -43,6 +43,8 @@ class Game {
 }
 
 class UI {
+  #defaultRemovePlayerSwitch = false;
+
   constructor() {
     this.game = new Game();
     this.table = document.getElementById("participants-table");
@@ -93,6 +95,7 @@ class UI {
     this.game.resetGame();
     this.renderTable();
     this.winnerField.innerText = "_______ __________";
+    this.resetOptions();
   }
 
   renderWinner(person) {
@@ -131,15 +134,29 @@ class UI {
     });
   }
 
+  resetOptions() {
+    this.removePlayerSwitch.checked = this.#defaultRemovePlayerSwitch;
+  }
+
   saveToLocalStorage() {
     console.log("Game saved");
     this.game.saveGame();
+
+    // Save options
+    window.localStorage.setItem(
+      "remove-player-switch",
+      this.removePlayerSwitch.checked
+    );
   }
 
   loadFromLocalStorage() {
     console.log("Load game");
     this.game.loadGame();
     this.renderTable();
+
+    // Load options
+    this.removePlayerSwitch.checked =
+      window.localStorage.getItem("remove-player-switch") === "true";
   }
 }
 
