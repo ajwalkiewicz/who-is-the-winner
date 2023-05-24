@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Draw Player</title>
+
+    <link rel="stylesheet" href="pico-master/css/pico.min.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <div class="grid">
+        <!-- Players -->
+        <!-- Add player -->
+        <div>
+          <article>
+            <header>
+              <h2>Players</h2>
+            </header>
+
+            <!-- Table with participants -->
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <!-- <th scope="col">Ignore</th> -->
+                  <th scope="col">Remove</th>
+                </tr>
+              </thead>
+              <tbody id="participants-table">
+                <tr>
+                  <th scope="row">1</th>
+                  <td>Adam Walkiewicz</td>
+                  <td>
+                    <fieldset>
+                      <label for="switch">
+                        <input
+                          type="checkbox"
+                          id="switch"
+                          name="switch"
+                          role="switch"
+                        />
+                      </label>
+                    </fieldset>
+                  </td>
+                  <td>❌</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- Add Player -->
+            <form>
+              <label for="add-player">Add Player</label>
+              <input
+                type="add-player"
+                id="add-player"
+                name="add-player"
+                placeholder="John Doe"
+                style="width: 100%"
+                required
+              />
+
+              <!-- Button -->
+            </form>
+            <button id="add-btn">Add Player</button>
+          </article>
+        </div>
+
+        <!-- Winner -->
+        <div>
+          <article>
+            <header>
+              <h3>Start the Game</h3>
+              <button id="draw-btn">Draw</button>
+            </header>
+
+            <h3>The winner is:</h3>
+            <h1 id="winner">_______ __________</h1>
+
+            <footer>
+              <h3>Options</h3>
+              <button id="load-btn" class="secondary">Load the Game</button>
+              <button id="save-btn" class="secondary">Save the Game</button>
+              <button id="reset-btn" class="secondary">Reset</button>
+            </footer>
+          </article>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="script.js" type="text/javascript"></script>
+  </body>
+</html>
