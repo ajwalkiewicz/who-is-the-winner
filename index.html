@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <main class="container">
+    <div class="container">
       <div class="grid">
         <!-- Players -->
         <!-- Add player -->
@@ -60,29 +60,29 @@
         <div>
           <article>
             <header>
-              <h3>Start the Game</h3>
-              <button id="draw-btn">Draw</button>
+              <h2>The Game</h2>
             </header>
-
             <h3>The winner is:</h3>
             <h1 id="winner">_______ __________</h1>
-
-            <footer>
-              <h3>Options</h3>
-              <fieldset>
-                <label>
-                  <input id="remove-player-swt" type="checkbox" role="switch" />
-                  Remove player after draw
-                </label>
-              </fieldset>
-              <button id="load-btn" class="secondary">Load the Game</button>
-              <button id="save-btn" class="secondary">Save the Game</button>
-              <button id="reset-btn" class="secondary">Reset</button>
-            </footer>
+            <button id="draw-btn">Draw</button>
+          </article>
+          <article>
+            <header>
+              <h2>Options</h2>
+            </header>
+            <fieldset>
+              <label>
+                <input id="remove-player-swt" type="checkbox" role="switch" />
+                Remove player after draw
+              </label>
+            </fieldset>
+            <button id="load-btn" class="secondary">Load the Game</button>
+            <button id="save-btn" class="secondary">Save the Game</button>
+            <button id="reset-btn" class="contrast">Reset</button>
           </article>
         </div>
       </div>
-    </main>
+    </div>
     <script type="module" src="script.js" type="text/javascript"></script>
   </body>
 </html>
