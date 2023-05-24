@@ -58,6 +58,7 @@ class UI {
     this.drawButton = document.getElementById("draw-btn");
     this.winnerField = document.getElementById("winner");
     this.removePlayerSwitch = document.getElementById("remove-player-swt");
+    this.infoField = document.getElementById("info");
 
     this.renderTable();
 
@@ -75,9 +76,15 @@ class UI {
     console.log(winner);
     this.renderWinner(winner);
     this.renderTable();
+
+    this.infoField.innerText = "The Game is on!";
   }
 
   removePlayer(playerID) {
+    this.infoField.innerText = `Bye bye ${
+      this.game.players.at(playerID).first_name
+    } 👋`;
+
     this.game.removePlayer(playerID);
     this.renderTable();
   }
@@ -96,6 +103,9 @@ class UI {
     this.renderTable();
     this.winnerField.innerText = "_______ __________";
     this.resetOptions();
+
+    this.addField.value = "";
+    this.infoField.innerText = "Ready to play? 😉";
   }
 
   renderWinner(person) {
@@ -139,7 +149,6 @@ class UI {
   }
 
   saveToLocalStorage() {
-    console.log("Game saved");
     this.game.saveGame();
 
     // Save options
@@ -147,16 +156,19 @@ class UI {
       "remove-player-switch",
       this.removePlayerSwitch.checked
     );
+
+    this.infoField.innerText = "Game saved!";
   }
 
   loadFromLocalStorage() {
-    console.log("Load game");
     this.game.loadGame();
     this.renderTable();
 
     // Load options
     this.removePlayerSwitch.checked =
       window.localStorage.getItem("remove-player-switch") === "true";
+
+    this.infoField.innerText = "Game loaded!";
   }
 }
 
