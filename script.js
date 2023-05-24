@@ -1,20 +1,19 @@
-import {
-  players,
-  Person
-} from "./players.js";
-
+import { players, Person } from "./players.js";
 
 class Game {
   constructor() {
     this.players = [...players];
   }
 
-  drawPlayer() {
+  drawPlayer(removePlayer = false) {
     const numberOfPlayers = this.players.length;
     const playerID = Math.floor(Math.random() * numberOfPlayers);
     const player = this.players[playerID];
 
-    this.removePlayer(playerID);
+    if (removePlayer) {
+      this.removePlayer(playerID);
+    }
+
     return player;
   }
 
@@ -56,6 +55,7 @@ class UI {
     this.resetButton = document.getElementById("reset-btn");
     this.drawButton = document.getElementById("draw-btn");
     this.winnerField = document.getElementById("winner");
+    this.removePlayerSwitch = document.getElementById("remove-player-swt");
 
     this.renderTable();
 
@@ -69,7 +69,7 @@ class UI {
   }
 
   drawPlayer() {
-    const winner = this.game.drawPlayer();
+    const winner = this.game.drawPlayer(this.removePlayerSwitch.checked);
     console.log(winner);
     this.renderWinner(winner);
     this.renderTable();
