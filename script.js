@@ -134,7 +134,6 @@ class UI {
 
       removeButton.classList.add("remove-btn");
       removeButton.innerHTML = '<i class="fas fa-times"></i>';
-      // removeButton.innerText = "❌";
       removeButton.addEventListener("click", () => this.removePlayer(index));
 
       tdRemove.appendChild(removeButton);
