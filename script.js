@@ -92,7 +92,7 @@ class UI {
   addPlayer() {
     const newPlayer = new Person(...this.addField.value.split(" "));
     console.log(newPlayer);
-    if (newPlayer.first_name && newPlayer.last_name) {
+    if (newPlayer.first_name || newPlayer.last_name) {
       this.game.addPlayer(newPlayer);
       this.renderTable();
     }
@@ -112,7 +112,8 @@ class UI {
     if (!person) {
       this.winnerField.innerText = "No players, please reset the game";
     } else {
-      this.winnerField.innerText = `${person.first_name} ${person.last_name}! 👑`;
+      this.winnerField.innerText =
+        `${person.first_name} ${person.last_name}`.trim() + "! 👑";
     }
   }
 
@@ -124,7 +125,7 @@ class UI {
       const th = document.createElement("th");
       const tdName = document.createElement("td");
       const tdRemove = document.createElement("td");
-      const removeButton = document.createElement("button");
+      const removeButton = document.createElement("div");
 
       th.setAttribute("scope", "row");
       th.innerText = index + 1;
@@ -132,6 +133,8 @@ class UI {
       tdName.innerText = `${person.first_name} ${person.last_name}`;
 
       removeButton.classList.add("remove-btn");
+      removeButton.innerHTML = '<i class="fas fa-times"></i>';
+      // removeButton.innerText = "❌";
       removeButton.addEventListener("click", () => this.removePlayer(index));
 
       tdRemove.appendChild(removeButton);

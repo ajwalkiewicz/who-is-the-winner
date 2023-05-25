@@ -1,16 +1,15 @@
-:root {
-    --primary: #d81b60;
-  }
-
 .remove-btn {
-    width: 15px;
-    height: 20px;
-    /* margin-top: 10px; */
-    margin: auto;
-    background: #d81b60;
-    border-color: #d81b60;
-    text-align: center;
+  background-color: transparent;
+  border: none;
+  margin: 0px;
+  color: #ff0000; 
+  text-align: left;
+}
 
+.fa-times {
+  cursor: pointer;
+  margin: 0px;
+  font-size: 40px;
 }
 
 article {
