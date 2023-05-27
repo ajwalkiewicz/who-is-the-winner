@@ -2,14 +2,15 @@
   background-color: transparent;
   border: none;
   margin: 0px;
+  padding: 0px;
   color: #ff0000; 
   text-align: left;
 }
 
 .fa-times {
   cursor: pointer;
-  margin: 0px;
-  font-size: 40px;
+  transform: scale(2, 2);
+  margin-left: 10%;
 }
 
 article {
