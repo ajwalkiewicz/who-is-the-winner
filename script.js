@@ -49,8 +49,9 @@ class UI {
   constructor() {
     this.game = new Game();
     this.table = document.getElementById("participants-table");
-    this.addButton = document.getElementById("add-btn");
-    this.addField = document.getElementById("add-player");
+    this.addPlayerButton = document.getElementById("add-btn");
+    this.addPlayerInput = document.getElementById("add-player");
+    this.invalidForm = document.querySelector(".invalid-form");
     this.removeButtons = [];
     this.ignoreButtons = [];
     this.loadButton = document.getElementById("load-btn");
@@ -70,7 +71,7 @@ class UI {
     this.loadButton.addEventListener("click", () =>
       this.loadFromLocalStorage()
     );
-    this.addButton.addEventListener("click", () => this.addPlayer());
+    this.addPlayerButton.addEventListener("click", () => this.addPlayer());
   }
 
   drawPlayer() {
@@ -94,12 +95,30 @@ class UI {
   }
 
   addPlayer() {
-    const newPlayer = new Person(...this.addField.value.split(" "));
-    console.log(newPlayer);
+    const maxPlayerNameLength = 30;
+
+    if (this.addPlayerInput.value.length > maxPlayerNameLength) {
+      this.invalidForm.innerText =
+        "Name length must be less than 30 characters!";
+      this.addPlayerInput.setAttribute("aria-invalid", "true");
+      this.invalidForm.classList.remove("hidden");
+      this.addPlayerInput.setAttribute("style", "margin-bottom: 0px");
+      return;
+    }
+
+    this.invalidForm.classList.add("hidden");
+    this.addPlayerInput.removeAttribute("aria-invalid");
+    this.addPlayerInput.removeAttribute("style");
+
+    const newPlayer = new Person(...this.addPlayerInput.value.split(" "));
+    console.info(newPlayer);
+
     if (newPlayer.first_name || newPlayer.last_name) {
       this.game.addPlayer(newPlayer);
       this.renderTable();
     }
+
+    this.addPlayerInput.value = "";
   }
 
   resetGame() {
@@ -108,7 +127,7 @@ class UI {
     this.winnerField.innerText = "_______ __________";
     this.resetOptions();
 
-    this.addField.value = "";
+    this.addPlayerInput.value = "";
     this.infoField.innerText = "Ready to play? 😉";
   }
 

@@ -26,3 +26,12 @@ span {
 span.fade {
   opacity: 1;
 }
+
+.hidden {
+  display: none;
+}
+
+.invalid-form {
+  color: #ff0000;
+  font-size: 15px;
+}
