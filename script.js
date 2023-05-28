@@ -44,6 +44,7 @@ class Game {
 
 class UI {
   #defaultRemovePlayerSwitch = false;
+  #defaultAnimationOffSwitch = false;
 
   constructor() {
     this.game = new Game();
@@ -58,6 +59,7 @@ class UI {
     this.drawButton = document.getElementById("draw-btn");
     this.winnerField = document.getElementById("winner");
     this.removePlayerSwitch = document.getElementById("remove-player-swt");
+    this.animationOffSwitch = document.getElementById("animation-off-swt");
     this.infoField = document.getElementById("info");
 
     this.renderTable();
@@ -74,8 +76,10 @@ class UI {
   drawPlayer() {
     const winner = this.game.drawPlayer(this.removePlayerSwitch.checked);
     console.log(winner);
-    this.renderWinner(winner);
+    this.drawButton.innerText = "";
+    this.drawButton.setAttribute("aria-busy", "true");
     this.renderTable();
+    this.renderWinner(winner);
 
     this.infoField.innerText = "The Game is on!";
   }
@@ -111,10 +115,43 @@ class UI {
   renderWinner(person) {
     if (!person) {
       this.winnerField.innerText = "No players, please reset the game";
-    } else {
-      this.winnerField.innerText =
-        `${person.first_name} ${person.last_name}`.trim() + "! 👑";
+      return;
     }
+
+    // Winner
+    const winnerText =
+      `${person.first_name} ${person.last_name}`.trim() + "! 👑";
+
+    // If animation disabled
+    if (this.animationOffSwitch.checked) {
+      this.winnerField.innerText = winnerText;
+      this.drawButton.removeAttribute("aria-busy");
+      this.drawButton.innerText = "Draw";
+      return;
+    }
+
+    // If animation allowed
+    const splitWinnerText = winnerText.split("");
+
+    this.winnerField.innerText = "";
+
+    splitWinnerText.forEach((character) => {
+      this.winnerField.innerHTML += `<span>${character}</span>`;
+    });
+
+    const interval = 50; // milliseconds
+    let char = 0;
+    let timer = setInterval(() => {
+      const span = document.querySelectorAll("span")[char];
+      span.classList.add("fade");
+      char++;
+      if (char === splitWinnerText.length) {
+        clearInterval(timer);
+        timer = null;
+        this.drawButton.removeAttribute("aria-busy");
+        this.drawButton.innerText = "Draw";
+      }
+    }, interval);
   }
 
   renderTable() {
@@ -148,6 +185,7 @@ class UI {
 
   resetOptions() {
     this.removePlayerSwitch.checked = this.#defaultRemovePlayerSwitch;
+    this.animationOffSwitch.checked = this.#defaultAnimationOffSwitch;
   }
 
   saveToLocalStorage() {
@@ -157,6 +195,11 @@ class UI {
     window.localStorage.setItem(
       "remove-player-switch",
       this.removePlayerSwitch.checked
+    );
+
+    window.localStorage.setItem(
+      "animation-off-switch",
+      this.animationOffSwitch.checked
     );
 
     this.infoField.innerText = "Game saved!";
@@ -169,6 +212,9 @@ class UI {
     // Load options
     this.removePlayerSwitch.checked =
       window.localStorage.getItem("remove-player-switch") === "true";
+
+    this.animationOffSwitch.checked =
+      window.localStorage.getItem("animation-off-switch") === "true";
 
     this.infoField.innerText = "Game loaded!";
   }
