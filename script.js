@@ -76,7 +76,7 @@ class UI {
 
   drawPlayer() {
     const winner = this.game.drawPlayer(this.removePlayerSwitch.checked);
-    console.log(winner);
+    console.info(winner);
     this.drawButton.innerText = "";
     this.drawButton.setAttribute("aria-busy", "true");
     this.renderTable();
