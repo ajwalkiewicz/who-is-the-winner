@@ -12,37 +12,26 @@
   </head>
   <body>
     <div class="container">
-      <div class="grid">
-        <!-- Players -->
-        <!-- Add player -->
-        <div>
-          <article>
-            <header>
-              <h2>Players</h2>
-            </header>
+      <!-- Players -->
+      <article>
+        <header>
+          <h1>Who is the Winner?!</h1>
+        </header>
+        <h3>The winner is:</h3>
+        <h2 id="winner">. . .</h2>
+        <button id="draw-btn">Draw</button>
+
+        <div class="grid">
+          <div>
+            <h3>Players</h3>
             <textarea
               id="players-area"
               rows="10"
               placeholder="List of players"
             ></textarea>
-          </article>
-        </div>
-
-        <!-- Winner -->
-        <div>
-          <article>
-            <header>
-              <h2>The Game</h2>
-            </header>
-            <h3>The winner is:</h3>
-            <h1 id="winner">_______ __________</h1>
-            <button id="draw-btn">Draw</button>
-          </article>
-          <article>
-            <header>
-              <h2>Options</h2>
-              <div id="info">Ready to play? 😉</div>
-            </header>
+          </div>
+          <div>
+            <h3>Options</h3>
             <fieldset>
               <label>
                 <input id="remove-player-swt" type="checkbox" role="switch" />
@@ -56,7 +45,13 @@
             <button id="load-btn" class="secondary">Load the Game</button>
             <button id="save-btn" class="secondary">Save the Game</button>
             <button id="reset-btn" class="secondary outline">Reset</button>
-            <footer>
+            <div id="info">Ready to play? 😉</div>
+          </div>
+        </div>
+
+        <footer>
+          <div class="grid">
+            <div class="socials">
               Check my:
               <i class="fa-brands fa-github"></i>
               <a href="https://github.com/ajwalkiewicz/who-is-the-winner"
@@ -68,10 +63,11 @@
                 href="https://www.linkedin.com/in/adam-walkiewicz-895b6a82/?locale=en_US"
                 >Linkedin</a
               >
-            </footer>
-          </article>
-        </div>
-      </div>
+            </div>
+            <div class="copyrights">Copyright 2023 Adam Walkiewicz</div>
+          </div>
+        </footer>
+      </article>
     </div>
     <script type="module" src="script.js" type="text/javascript"></script>
   </body>
