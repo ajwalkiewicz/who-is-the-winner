@@ -20,38 +20,11 @@
             <header>
               <h2>Players</h2>
             </header>
-
-            <!-- Table with participants -->
-            <table role="grid">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Remove</th>
-                </tr>
-              </thead>
-              <tbody id="participants-table">
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Adam Walkiewicz</td>
-                  <td>❌</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <!-- Add Player -->
-            <label for="add-player">Add Player</label>
-            <input
-              type="add-player"
-              id="add-player"
-              name="add-player"
-              placeholder="John Doe (max 30 characters)"
-              style="width: 100%"
-              required
-            />
-            <i class="invalid-form hidden"></i>
-            <!-- Button -->
-            <button id="add-btn" class="outline">Add Player</button>
+            <textarea
+              id="players-area"
+              rows="10"
+              placeholder="List of players"
+            ></textarea>
           </article>
         </div>
 
