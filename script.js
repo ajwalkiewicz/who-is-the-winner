@@ -164,7 +164,7 @@ class UI {
   resetGame() {
     this.game.resetGame();
     this.renderTextArea();
-    this.winnerField.innerText = "_______ __________";
+    this.winnerField.innerText = "? ? ?";
     this.resetOptions();
 
     this.infoField.innerText = "Ready to play? 😉";
