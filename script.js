@@ -121,7 +121,10 @@ class UI {
     }
 
     // If animation allowed
-    const splitWinnerText = winnerText.split("");
+    const splitWinnerText = winnerText
+      .slice(0, winnerText.indexOf("👑"))
+      .split("")
+      .concat("👑");
 
     this.winnerField.innerText = "";
 
