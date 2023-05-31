@@ -1,8 +1,8 @@
-import { players, Person } from "./players.js";
+import { defaultPlayers, Person } from "./players.js";
 
 class Game {
   constructor() {
-    this.players = [...players];
+    this.players = [...defaultPlayers];
   }
 
   drawPlayer(removePlayer = false) {
@@ -17,6 +17,10 @@ class Game {
     return player;
   }
 
+  updatePlayersList(newPlayers) {
+    this.players = newPlayers;
+  }
+
   addPlayer(person) {
     this.players.push(person);
   }
@@ -26,7 +30,7 @@ class Game {
   }
 
   resetGame() {
-    this.players = [...players];
+    this.players = [...defaultPlayers];
   }
 
   saveGame() {
@@ -48,7 +52,7 @@ class UI {
 
   constructor() {
     this.game = new Game();
-    this.table = document.getElementById("participants-table");
+    this.textArea = document.getElementById("players-area");
     this.addPlayerButton = document.getElementById("add-btn");
     this.addPlayerInput = document.getElementById("add-player");
     this.invalidForm = document.querySelector(".invalid-form");
@@ -63,7 +67,7 @@ class UI {
     this.animationOffSwitch = document.getElementById("animation-off-swt");
     this.infoField = document.getElementById("info");
 
-    this.renderTable();
+    this.renderTextArea();
 
     this.drawButton.addEventListener("click", () => this.drawPlayer());
     this.resetButton.addEventListener("click", () => this.resetGame());
@@ -71,69 +75,37 @@ class UI {
     this.loadButton.addEventListener("click", () =>
       this.loadFromLocalStorage()
     );
-    this.addPlayerButton.addEventListener("click", () => this.addPlayer());
+    this.textArea.addEventListener("change", () => {
+      this.fetchDataFromTextArea();
+      this.game.updatePlayersList(this.players);
+      console.log(this.players);
+    });
   }
 
   drawPlayer() {
     const winner = this.game.drawPlayer(this.removePlayerSwitch.checked);
     console.info(winner);
-    this.drawButton.innerText = "";
-    this.drawButton.setAttribute("aria-busy", "true");
-    this.renderTable();
+    this.disableDrawButton();
     this.renderWinner(winner);
+    this.renderTextArea();
 
     this.infoField.innerText = "The Game is on!";
   }
 
-  removePlayer(playerID) {
-    this.infoField.innerText = `Bye bye ${
-      this.game.players.at(playerID).first_name
-    } 👋`;
-
-    this.game.removePlayer(playerID);
-    this.renderTable();
+  disableDrawButton() {
+    this.drawButton.innerText = "";
+    this.drawButton.setAttribute("aria-busy", "true");
   }
 
-  addPlayer() {
-    const maxPlayerNameLength = 30;
-
-    if (this.addPlayerInput.value.length > maxPlayerNameLength) {
-      this.invalidForm.innerText =
-        "Name length must be less than 30 characters!";
-      this.addPlayerInput.setAttribute("aria-invalid", "true");
-      this.invalidForm.classList.remove("hidden");
-      this.addPlayerInput.setAttribute("style", "margin-bottom: 0px");
-      return;
-    }
-
-    this.invalidForm.classList.add("hidden");
-    this.addPlayerInput.removeAttribute("aria-invalid");
-    this.addPlayerInput.removeAttribute("style");
-
-    const newPlayer = new Person(...this.addPlayerInput.value.split(" "));
-    console.info(newPlayer);
-
-    if (newPlayer.first_name || newPlayer.last_name) {
-      this.game.addPlayer(newPlayer);
-      this.renderTable();
-    }
-
-    this.addPlayerInput.value = "";
-  }
-
-  resetGame() {
-    this.game.resetGame();
-    this.renderTable();
-    this.winnerField.innerText = "_______ __________";
-    this.resetOptions();
-
-    this.addPlayerInput.value = "";
-    this.infoField.innerText = "Ready to play? 😉";
+  enableDrawButton() {
+    this.drawButton.removeAttribute("aria-busy");
+    this.drawButton.innerText = "Draw";
   }
 
   renderWinner(person) {
     if (!person) {
-      this.winnerField.innerText = "No players, please reset the game";
+      this.winnerField.innerText = "Please add players to the list";
+      this.enableDrawButton();
       return;
     }
 
@@ -144,8 +116,7 @@ class UI {
     // If animation disabled
     if (this.animationOffSwitch.checked) {
       this.winnerField.innerText = winnerText;
-      this.drawButton.removeAttribute("aria-busy");
-      this.drawButton.innerText = "Draw";
+      this.enableDrawButton();
       return;
     }
 
@@ -167,39 +138,36 @@ class UI {
       if (char === splitWinnerText.length) {
         clearInterval(timer);
         timer = null;
-        this.drawButton.removeAttribute("aria-busy");
-        this.drawButton.innerText = "Draw";
+        this.enableDrawButton();
       }
     }, interval);
   }
 
-  renderTable() {
-    this.table.innerHTML = "";
+  renderTextArea() {
+    this.textArea.value = "";
 
-    this.game.players.forEach((person, index, _) => {
-      const tr = document.createElement("tr");
-      const th = document.createElement("th");
-      const tdName = document.createElement("td");
-      const tdRemove = document.createElement("td");
-      const removeButton = document.createElement("div");
-
-      th.setAttribute("scope", "row");
-      th.innerText = index + 1;
-
-      tdName.innerText = `${person.first_name} ${person.last_name}`;
-
-      removeButton.classList.add("remove-btn");
-      removeButton.innerHTML = '<i class="fas fa-times"></i>';
-      removeButton.addEventListener("click", () => this.removePlayer(index));
-
-      tdRemove.appendChild(removeButton);
-
-      tr.appendChild(th);
-      tr.appendChild(tdName);
-      tr.appendChild(tdRemove);
-
-      this.table.appendChild(tr);
+    this.game.players.forEach((player) => {
+      this.textArea.value += `${player.first_name} ${player.last_name}\n`;
     });
+  }
+
+  fetchDataFromTextArea() {
+    this.players = [];
+    this.textArea.value.split("\n").forEach((player) => {
+      if (player.trim()) {
+        this.players.push(new Person(...player.split(" ")));
+      }
+    });
+    return this.players;
+  }
+
+  resetGame() {
+    this.game.resetGame();
+    this.renderTextArea();
+    this.winnerField.innerText = "? ? ?";
+    this.resetOptions();
+
+    this.infoField.innerText = "Ready to play? 😉";
   }
 
   resetOptions() {
@@ -226,7 +194,7 @@ class UI {
 
   loadFromLocalStorage() {
     this.game.loadGame();
-    this.renderTable();
+    this.renderTextArea();
 
     // Load options
     this.removePlayerSwitch.checked =
@@ -240,3 +208,5 @@ class UI {
 }
 
 const ui = new UI();
+
+window.ui = ui;

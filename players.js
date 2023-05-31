@@ -5,7 +5,7 @@ class Person {
   }
 }
 
-const players = [
+const defaultPlayers = [
   new Person("Adam", "Walkiewicz"),
   new Person("Adelia", "Alexander"),
   new Person("Wilma", "Graham"),
@@ -16,4 +16,4 @@ const players = [
   new Person("Marvin", "Rutledge"),
 ];
 
-export { players, Person };
+export { defaultPlayers, Person };
