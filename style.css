@@ -21,6 +21,16 @@ span.fade {
   text-align: center;
 }
 
+#reset-btn {
+  border: 1px solid #FF6B6B;
+  transition-duration: 0.4s;
+}
+
+#reset-btn:hover {
+  background-color: #FF6B6B; 
+  color: white;
+}
+
 .remove-btn {
   background-color: transparent;
   border: none;
