@@ -49,15 +49,16 @@ class Game {
 class UI {
   #defaultRemovePlayerSwitch = false;
   #defaultAnimationOffSwitch = false;
+  #defaultLanguage = navigator.languages[1];
 
   constructor() {
     this.game = new Game();
+    this.languageDropdown = document.getElementsByClassName("language")[0];
+    this.titleText = document.getElementById("title-txt");
+    this.subtitleText = document.getElementById("subtitle-txt");
+    this.playersText = document.getElementById("players-txt");
+    this.optionsText = document.getElementById("options-txt");
     this.textArea = document.getElementById("players-area");
-    this.addPlayerButton = document.getElementById("add-btn");
-    this.addPlayerInput = document.getElementById("add-player");
-    this.invalidForm = document.querySelector(".invalid-form");
-    this.removeButtons = [];
-    this.ignoreButtons = [];
     this.loadButton = document.getElementById("load-btn");
     this.saveButton = document.getElementById("save-btn");
     this.resetButton = document.getElementById("reset-btn");
@@ -68,6 +69,10 @@ class UI {
     this.infoField = document.getElementById("info");
 
     this.renderTextArea();
+    this.updateLanguage(this.#defaultLanguage);
+    this.languageDropdown.value = this.#defaultLanguage;
+
+    this.gameState = "gameResetMessage";
 
     this.drawButton.addEventListener("click", () => this.drawPlayer());
     this.resetButton.addEventListener("click", () => this.resetGame());
@@ -80,6 +85,9 @@ class UI {
       this.game.updatePlayersList(this.players);
       console.log(this.players);
     });
+    this.languageDropdown.addEventListener("click", () =>
+      this.updateLanguage(this.languageDropdown.value)
+    );
   }
 
   drawPlayer() {
@@ -89,7 +97,8 @@ class UI {
     this.renderWinner(winner);
     this.renderTextArea();
 
-    this.infoField.innerText = "The Game is on!";
+    this.gameState = "gameOnMessage";
+    this.infoField.innerText = this.translation.gameOnMessage;
   }
 
   disableDrawButton() {
@@ -99,12 +108,12 @@ class UI {
 
   enableDrawButton() {
     this.drawButton.removeAttribute("aria-busy");
-    this.drawButton.innerText = "Draw";
+    this.drawButton.innerText = this.translation.drawButton;
   }
 
   renderWinner(person) {
     if (!person) {
-      this.winnerField.innerText = "Please add players to the list";
+      this.winnerField.innerText = this.translation.addPlayersMessage;
       this.enableDrawButton();
       return;
     }
@@ -170,7 +179,8 @@ class UI {
     this.winnerField.innerText = "? ? ?";
     this.resetOptions();
 
-    this.infoField.innerText = "Ready to play? 😉";
+    this.gameState = "gameResetMessage";
+    this.infoField.innerText = this.translation.gameResetMessage;
   }
 
   resetOptions() {
@@ -192,7 +202,8 @@ class UI {
       this.animationOffSwitch.checked
     );
 
-    this.infoField.innerText = "Game saved!";
+    this.gameState = "gameSavedMessage";
+    this.infoField.innerText = this.translation.gameSavedMessage;
   }
 
   loadFromLocalStorage() {
@@ -206,7 +217,32 @@ class UI {
     this.animationOffSwitch.checked =
       window.localStorage.getItem("animation-off-switch") === "true";
 
-    this.infoField.innerText = "Game loaded!";
+    this.gameState = "gameLoadedMessage";
+    this.infoField.innerText = this.translation.gameLoadedMessage;
+  }
+
+  async updateLanguage(alphaCode) {
+    return await fetch(`./lang/${alphaCode}.json`)
+      .then((response) => response.json())
+      .then((data) => {
+        this.translation = data;
+        this.infoField.innerText = data[this.gameState];
+        this.titleText.innerText = data.titleText;
+        this.subtitleText.innerText = data.subtitleText;
+        this.drawButton.innerText = data.drawButton;
+        this.playersText.innerText = data.playersText;
+        this.optionsText.innerText = data.optionsText;
+        this.removePlayerSwitch.nextSibling.data = data.removePlayerSwitch;
+        this.animationOffSwitch.nextSibling.data = data.animationOffSwitch;
+        this.loadButton.innerText = data.loadButton;
+        this.saveButton.innerText = data.saveButton;
+        this.resetButton.innerText = data.resetButton;
+
+        return data;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 }
 

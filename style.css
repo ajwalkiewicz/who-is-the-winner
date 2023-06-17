@@ -58,3 +58,9 @@ span.fade {
 .copyrights {
   text-align: right;
 }
+
+.language {
+  font-size: 0.7rem;
+  width: 50%;
+  padding: 2px;
+}

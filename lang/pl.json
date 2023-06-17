@@ -1,0 +1,17 @@
+{
+    "titleText": "Kto jest zwycięzcą?!",
+    "subtitleText": "Zwycięzcą jest:",
+    "drawButton": "Losuj",
+    "playersText": "Gracze",
+    "optionsText": "Opcje",
+    "removePlayerSwitch": " Usuń gracza po losowaniu",
+    "animationOffSwitch": " Wyłącz animację losowania",
+    "loadButton": "Załaduj Grę",
+    "saveButton": "Zapisz Grę",
+    "resetButton": "Zresetuj Wszystko",
+    "addPlayersMessage": "Dodaj Graczy do listy",
+    "gameSavedMessage": "Gra zapisana!",
+    "gameLoadedMessage": "Gra załadowana!",
+    "gameResetMessage": "Gotowy do Gry?",
+    "gameOnMessage": "Gra trwa!"
+}
