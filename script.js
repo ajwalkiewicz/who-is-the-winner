@@ -85,7 +85,7 @@ class UI {
       this.game.updatePlayersList(this.players);
       console.log(this.players);
     });
-    this.languageDropdown.addEventListener("click", () =>
+    this.languageDropdown.addEventListener("change", () =>
       this.updateLanguage(this.languageDropdown.value)
     );
   }
