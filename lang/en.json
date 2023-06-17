@@ -1,0 +1,17 @@
+{
+    "titleText": "Who is the Winner?!",
+    "subtitleText": "The winner is:",
+    "drawButton": "Draw",
+    "playersText": "Players",
+    "optionsText": "Options",
+    "removePlayerSwitch": " Remove player after draw",
+    "animationOffSwitch": " Disable drawing animation",
+    "loadButton": "Load the Game",
+    "saveButton": "Save the Game",
+    "resetButton": "Reset All",
+    "addPlayersMessage": "Please add players to the list",
+    "gameSavedMessage": "Game saved!",
+    "gameLoadedMessage": "Game loaded!",
+    "gameResetMessage": "Ready to play? 😉",
+    "gameOnMessage": "The Game is on!"
+}

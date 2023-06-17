@@ -15,16 +15,16 @@
       <article>
         <!-- Winner -->
         <header>
-          <h1>Who is the Winner?!</h1>
+          <h1 id="title-txt">Who is the Winner?!</h1>
         </header>
-        <h3>The winner is:</h3>
+        <h3 id="subtitle-txt">The winner is:</h3>
         <h2 id="winner">? ? ?</h2>
         <button id="draw-btn">Draw</button>
 
         <div class="grid">
           <!-- Players -->
           <div>
-            <h3>Players</h3>
+            <h3 id="players-txt">Players</h3>
             <textarea
               id="players-area"
               rows="10"
@@ -33,7 +33,7 @@
           </div>
           <!-- Options -->
           <div>
-            <h3>Options</h3>
+            <h3 id="options-txt">Options</h3>
             <fieldset>
               <label>
                 <input id="remove-player-swt" type="checkbox" />
@@ -53,6 +53,14 @@
 
         <footer>
           <div class="grid">
+            <!-- Language -->
+            <div>
+              <select class="language">
+                <option value="en" selected>🇬🇧 English</option>
+                <option value="es">🇪🇸 Español</option>
+                <option value="pl">🇵🇱 Polski</option>
+              </select>
+            </div>
             <!-- Socials -->
             <div class="socials">
               Check my:
@@ -68,7 +76,7 @@
               >
             </div>
             <!-- Copyrights -->
-            <small class="copyrights">Copyright 2023 Adam Walkiewicz</small>
+            <div class="copyrights">Copyright 2023 Adam Walkiewicz</div>
           </div>
         </footer>
       </article>

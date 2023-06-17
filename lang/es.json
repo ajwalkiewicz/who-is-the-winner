@@ -1,0 +1,17 @@
+{
+    "titleText": "¿Quién es el ganador?",
+    "subtitleText": "El ganador es:",
+    "drawButton": "Dibujar",
+    "playersText": "Jugadores",
+    "optionsText": "Opciones",
+    "removePlayerSwitch": "Eliminar jugador después del sorteo",
+    "animationOffSwitch": "Desactivar animación de dibujo",
+    "loadButton": "Cargar el Juego",
+    "saveButton": "Guardar el juego",
+    "resetButton": "Restablecer todo",
+    "addPlayersMessage": "Por favor agregue jugadores a la lista",
+    "gameSavedMessage": "¡Juego guardado!",
+    "gameLoadedMessage": "¡Juego cargado!",
+    "gameResetMessage": "¿Listo para jugar? 😉",
+    "gameOnMessage": "¡El juego ha comenzado!"
+}
