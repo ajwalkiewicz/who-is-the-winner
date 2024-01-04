@@ -47,9 +47,9 @@ class Game {
 }
 
 class UI {
-  #defaultRemovePlayerSwitch = false;
-  #defaultAnimationOffSwitch = false;
-  #defaultLanguage = navigator.languages[1];
+  _defaultRemovePlayerSwitch = false;
+  _defaultAnimationOffSwitch = false;
+  _defaultLanguage = navigator.languages[1];
 
   constructor() {
     this.game = new Game();
@@ -69,8 +69,8 @@ class UI {
     this.infoField = document.getElementById("info");
 
     this.renderTextArea();
-    this.updateLanguage(this.#defaultLanguage);
-    this.languageDropdown.value = this.#defaultLanguage;
+    this.updateLanguage(this._defaultLanguage);
+    this.languageDropdown.value = this._defaultLanguage;
 
     this.gameState = "gameResetMessage";
 
@@ -184,8 +184,8 @@ class UI {
   }
 
   resetOptions() {
-    this.removePlayerSwitch.checked = this.#defaultRemovePlayerSwitch;
-    this.animationOffSwitch.checked = this.#defaultAnimationOffSwitch;
+    this.removePlayerSwitch.checked = this._defaultRemovePlayerSwitch;
+    this.animationOffSwitch.checked = this._defaultAnimationOffSwitch;
   }
 
   saveToLocalStorage() {
