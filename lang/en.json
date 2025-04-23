@@ -6,6 +6,7 @@
     "optionsText": "Options",
     "removePlayerSwitch": " Remove player after draw",
     "animationOffSwitch": " Disable drawing animation",
+    "restoreGameSwitch": " Restore game after page reload",
     "loadButton": "Load the Game",
     "saveButton": "Save the Game",
     "resetButton": "Reset All",

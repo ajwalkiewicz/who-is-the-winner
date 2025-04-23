@@ -1,8 +1,19 @@
 import { defaultPlayers, Person } from "./players.js";
 
+const GameState = Object.freeze({
+  Saved: "gameSavedMessage",
+  Loaded: "gameLoadedMessage",
+  Reset: "gameResetMessage",
+  On: "gameOnMessage",
+});
+
 class Game {
-  constructor() {
-    this.players = [...defaultPlayers];
+  constructor(restoreGame = false) {
+    if (window.localStorage.getItem("current-game-status") && restoreGame) {
+      this.loadGame("current-game-status");
+    } else {
+      this.players = [...defaultPlayers];
+    }
   }
 
   drawPlayer(removePlayer = false) {
@@ -13,6 +24,8 @@ class Game {
     if (removePlayer) {
       this.removePlayer(playerID);
     }
+
+    this.saveGame("current-game-status");
 
     return player;
   }
@@ -33,26 +46,27 @@ class Game {
     this.players = [...defaultPlayers];
   }
 
-  saveGame() {
-    window.localStorage.setItem("players", JSON.stringify(this.players));
+  saveGame(source = "players") {
+    window.localStorage.setItem(source, JSON.stringify(this.players));
   }
 
-  loadGame() {
-    const tempPlayers = JSON.parse(window.localStorage.getItem("players"));
+  loadGame(source = "players") {
+    const tempPlayers = JSON.parse(window.localStorage.getItem(source));
     this.players = [];
     tempPlayers.forEach((player) => {
       this.players.push(new Person(player.first_name, player.last_name));
     });
+    this.saveGame("current-game-status");
   }
 }
 
 class UI {
   _defaultRemovePlayerSwitch = false;
   _defaultAnimationOffSwitch = false;
+  _defaultRestoreGameSwitch = false;
   _defaultLanguage = navigator.languages[1];
 
   constructor() {
-    this.game = new Game();
     this.languageDropdown = document.getElementsByClassName("language")[0];
     this.titleText = document.getElementById("title-txt");
     this.subtitleText = document.getElementById("subtitle-txt");
@@ -66,14 +80,35 @@ class UI {
     this.winnerField = document.getElementById("winner");
     this.removePlayerSwitch = document.getElementById("remove-player-swt");
     this.animationOffSwitch = document.getElementById("animation-off-swt");
+    this.restoreGameSwitch = document.getElementById("restore-game-swt");
     this.infoField = document.getElementById("info");
+
+    this.switchMap = Object.freeze({
+      "remove-player-switch": this.removePlayerSwitch,
+      "animation-off-switch": this.animationOffSwitch,
+      "restore-game-switch": this.restoreGameSwitch,
+    });
+
+    this.loadCurrentSwitchFromLocalStorage("remove-player-switch");
+    this.loadCurrentSwitchFromLocalStorage("animation-off-switch");
+    this.loadCurrentSwitchFromLocalStorage("restore-game-switch");
+
+    this.game = new Game(this.restoreGameSwitch.checked);
+    this.gameState = GameState.Reset;
 
     this.renderTextArea();
     this.updateLanguage(this._defaultLanguage);
     this.languageDropdown.value = this._defaultLanguage;
 
-    this.gameState = "gameResetMessage";
-
+    this.removePlayerSwitch.addEventListener("change", () =>
+      this.saveCurrentSwitchToLocalStorage("remove-player-switch")
+    );
+    this.animationOffSwitch.addEventListener("change", () =>
+      this.saveCurrentSwitchToLocalStorage("animation-off-switch")
+    );
+    this.restoreGameSwitch.addEventListener("change", () =>
+      this.saveCurrentSwitchToLocalStorage("restore-game-switch")
+    );
     this.drawButton.addEventListener("click", () => this.drawPlayer());
     this.resetButton.addEventListener("click", () => this.resetGame());
     this.saveButton.addEventListener("click", () => this.saveToLocalStorage());
@@ -97,7 +132,7 @@ class UI {
     this.renderWinner(winner);
     this.renderTextArea();
 
-    this.gameState = "gameOnMessage";
+    this.gameState = GameState.On;
     this.infoField.innerText = this.translation.gameOnMessage;
   }
 
@@ -179,50 +214,65 @@ class UI {
     this.winnerField.innerText = "? ? ?";
     this.resetOptions();
 
-    this.gameState = "gameResetMessage";
+    this.gameState = GameState.Reset;
     this.infoField.innerText = this.translation.gameResetMessage;
   }
 
   resetOptions() {
     this.removePlayerSwitch.checked = this._defaultRemovePlayerSwitch;
     this.animationOffSwitch.checked = this._defaultAnimationOffSwitch;
+    this.restoreGameSwitch.checked = this._defaultRestoreGameSwitch;
+    this.saveCurrentSwitchToLocalStorage("remove-player-switch");
+    this.saveCurrentSwitchToLocalStorage("animation-off-switch");
+    this.saveCurrentSwitchToLocalStorage("restore-game-switch");
+  }
+
+  saveCurrentSwitchToLocalStorage(switchName) {
+    window.localStorage.setItem(switchName, this.switchMap[switchName].checked);
   }
 
   saveToLocalStorage() {
     this.game.saveGame();
 
-    // Save options
-    window.localStorage.setItem(
-      "remove-player-switch",
-      this.removePlayerSwitch.checked
-    );
+    const switchOptions = {
+      removePlayerSwitch: this.removePlayerSwitch.checked,
+      animationOffSwitch: this.animationOffSwitch.checked,
+      restoreGameSwitch: this.restoreGameSwitch.checked,
+    };
 
-    window.localStorage.setItem(
-      "animation-off-switch",
-      this.animationOffSwitch.checked
-    );
+    window.localStorage.setItem("switchOptions", JSON.stringify(switchOptions));
 
-    this.gameState = "gameSavedMessage";
+    this.gameState = GameState.Saved;
     this.infoField.innerText = this.translation.gameSavedMessage;
+  }
+
+  loadCurrentSwitchFromLocalStorage(switchName) {
+    this.switchMap[switchName].checked =
+      window.localStorage.getItem(switchName) === "true";
   }
 
   loadFromLocalStorage() {
     this.game.loadGame();
     this.renderTextArea();
 
-    // Load options
-    this.removePlayerSwitch.checked =
-      window.localStorage.getItem("remove-player-switch") === "true";
+    const switchOptions = JSON.parse(
+      window.localStorage.getItem("switchOptions")
+    );
 
-    this.animationOffSwitch.checked =
-      window.localStorage.getItem("animation-off-switch") === "true";
+    this.removePlayerSwitch.checked = switchOptions.removePlayerSwitch;
+    this.animationOffSwitch.checked = switchOptions.animationOffSwitch;
+    this.restoreGameSwitch.checked = switchOptions.restoreGameSwitch;
 
-    this.gameState = "gameLoadedMessage";
+    this.saveCurrentSwitchToLocalStorage("remove-player-switch");
+    this.saveCurrentSwitchToLocalStorage("animation-off-switch");
+    this.saveCurrentSwitchToLocalStorage("restore-game-switch");
+
+    this.gameState = GameState.Loaded;
     this.infoField.innerText = this.translation.gameLoadedMessage;
   }
 
   async updateLanguage(alphaCode) {
-    return await fetch(`./lang/${alphaCode}.json`)
+    return fetch(`./lang/${alphaCode}.json`)
       .then((response) => response.json())
       .then((data) => {
         this.translation = data;
@@ -234,6 +284,7 @@ class UI {
         this.optionsText.innerText = data.optionsText;
         this.removePlayerSwitch.nextSibling.data = data.removePlayerSwitch;
         this.animationOffSwitch.nextSibling.data = data.animationOffSwitch;
+        this.restoreGameSwitch.nextSibling.data = data.restoreGameSwitch;
         this.loadButton.innerText = data.loadButton;
         this.saveButton.innerText = data.saveButton;
         this.resetButton.innerText = data.resetButton;
@@ -248,4 +299,6 @@ class UI {
 
 const ui = new UI();
 
+// Storing reference to UI in window object
+// to access it from the console
 window.ui = ui;
