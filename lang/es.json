@@ -4,8 +4,9 @@
     "drawButton": "Dibujar",
     "playersText": "Jugadores",
     "optionsText": "Opciones",
-    "removePlayerSwitch": "Eliminar jugador después del sorteo",
-    "animationOffSwitch": "Desactivar animación de dibujo",
+    "removePlayerSwitch": " Eliminar jugador después del sorteo",
+    "animationOffSwitch": " Desactivar animación de dibujo",
+    "restoreGameSwitch": " Restaurar juego después de recargar",
     "loadButton": "Cargar el Juego",
     "saveButton": "Guardar el juego",
     "resetButton": "Restablecer todo",
@@ -13,5 +14,6 @@
     "gameSavedMessage": "¡Juego guardado!",
     "gameLoadedMessage": "¡Juego cargado!",
     "gameResetMessage": "¿Listo para jugar? 😉",
-    "gameOnMessage": "¡El juego ha comenzado!"
+    "gameOnMessage": "¡El juego ha comenzado!",
+    "errorLoadGameMessage": "¡Error al cargar el juego!"
 }
