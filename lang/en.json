@@ -14,5 +14,6 @@
     "gameSavedMessage": "Game saved!",
     "gameLoadedMessage": "Game loaded!",
     "gameResetMessage": "Ready to play? 😉",
-    "gameOnMessage": "The Game is on!"
+    "gameOnMessage": "The Game is on!",
+    "errorLoadGameMessage": "Error while loading the game!"
 }

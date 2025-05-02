@@ -52,6 +52,7 @@ class Game {
 
   loadGame(source = "players") {
     const tempPlayers = JSON.parse(window.localStorage.getItem(source));
+    if (!tempPlayers) return;
     this.players = [];
     tempPlayers.forEach((player) => {
       this.players.push(new Person(player.first_name, player.last_name));
@@ -99,6 +100,7 @@ class UI {
     this.renderTextArea();
     this.updateLanguage(this._defaultLanguage);
     this.languageDropdown.value = this._defaultLanguage;
+    this.setLoadButton();
 
     this.removePlayerSwitch.addEventListener("change", () =>
       this.saveCurrentSwitchToLocalStorage("remove-player-switch")
@@ -244,11 +246,20 @@ class UI {
 
     this.gameState = GameState.Saved;
     this.infoField.innerText = this.translation.gameSavedMessage;
+    this.setLoadButton();
   }
 
   loadCurrentSwitchFromLocalStorage(switchName) {
     this.switchMap[switchName].checked =
       window.localStorage.getItem(switchName) === "true";
+  }
+
+  setLoadButton() {
+    if (window.localStorage.getItem("players")) {
+      this.loadButton.disabled = false;
+    } else {
+      this.loadButton.disabled = true;
+    }
   }
 
   loadFromLocalStorage() {
@@ -258,6 +269,11 @@ class UI {
     const switchOptions = JSON.parse(
       window.localStorage.getItem("switchOptions")
     );
+
+    if (!switchOptions) {
+      this.infoField.innerText = this.translation.errorLoadGameMessage;
+      return;
+    }
 
     this.removePlayerSwitch.checked = switchOptions.removePlayerSwitch;
     this.animationOffSwitch.checked = switchOptions.animationOffSwitch;

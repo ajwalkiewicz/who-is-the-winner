@@ -14,5 +14,6 @@
     "gameSavedMessage": "¡Juego guardado!",
     "gameLoadedMessage": "¡Juego cargado!",
     "gameResetMessage": "¿Listo para jugar? 😉",
-    "gameOnMessage": "¡El juego ha comenzado!"
+    "gameOnMessage": "¡El juego ha comenzado!",
+    "errorLoadGameMessage": "¡Error al cargar el juego!"
 }

@@ -14,5 +14,6 @@
     "gameSavedMessage": "Gra zapisana!",
     "gameLoadedMessage": "Gra załadowana!",
     "gameResetMessage": "Gotowy do Gry?",
-    "gameOnMessage": "Gra trwa!"
+    "gameOnMessage": "Gra trwa!",
+    "errorLoadGameMessage": "Błąd podczas ładowania gry!"
 }
