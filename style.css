@@ -59,6 +59,10 @@ span.fade {
   text-align: right;
 }
 
+#login-link {
+  text-align: right;
+}
+
 .language {
   font-size: 0.75rem;
   width: 50%;
